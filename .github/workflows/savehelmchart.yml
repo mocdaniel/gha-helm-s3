@@ -17,9 +17,10 @@ jobs:
 
     - name: Setup s3cmd
       uses: s3-actions/s3cmd@v1.4.0
-      region: ${{ secrets.AWS_REGION }}
-      access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      with:
+        region: ${{ secrets.AWS_REGION }}
+        access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - name: Build the Helmchart
       run: helm package example-chart
