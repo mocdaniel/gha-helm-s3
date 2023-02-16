@@ -26,5 +26,5 @@ jobs:
       run: helm package example-chart
 
     - name: Upload the Helmchart to S3 bucket
-      run: s3cmd --host=${{ secrets.AWS_HOST }} --host-bucket=s3://${{ secrets.AWS_BUCKET }} *.tgz s3://${{ secrets.AWS_BUCKET }}
+      run: s3cmd --host=${{ secrets.AWS_HOST }} --host-bucket=s3://${{ secrets.AWS_BUCKET }} put *.tgz s3://${{ secrets.AWS_BUCKET }}
       
