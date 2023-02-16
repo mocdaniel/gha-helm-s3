@@ -1,0 +1,29 @@
+name: Build and upload Helmchart to S3
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  build-n-upload:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install Helm
+      uses: azure/setup-helm@v4
+
+    - name: Setup s3cmd
+      uses: s3-actions/s3cmd@v1.4.0
+      region: ${{ secrets.AWS_REGION }}
+      access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Build the Helmchart
+      run: helm package example-chart
+
+    - name: Upload the Helmchart to S3 bucket
+      run: s3cmd --host=${{ secrets.AWS_HOST }} --host-bucket=s3://${{ secrets.AWS_BUCKET }} *.tgz s3://${{ secrets.AWS_BUCKET }}
+      
